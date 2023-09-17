@@ -3,3 +3,62 @@
     margin: 0;
     box-sizing: border-box;
 }
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding: 10px 30px;
+    gap: 30px;
+    height: 100vh;
+    font-size: 21px;
+    background-color: rgb(136, 137, 227);
+}
+.wrapper h1{
+    color: white;
+    text-shadow:5px 5px 2px black;
+}
+.paragraph-wrapper{
+    background-color: white;
+    padding: 50px 10px;
+    border-radius: 12px;
+}
+.paragraph-wrapper p{
+    color: #333;
+    letter-spacing: 0.3em;
+    font-size: 16px;
+}
+.measures{
+    color: blue;
+    font-size: 18px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 12px;
+    background-color: white;
+    width: 100%;
+    padding: 20px 10px;
+    border-radius: 12px;
+}
+#time{
+    font-size: 21px;
+    color: black;
+}
+#total-typed{
+    font-size: 24px;
+    color: black;
+}
+#correct-typed{
+    font-size: 24px;
+    color: green;
+}
+#wrong-typed{
+    font-size: 24px;
+    color: red;
+}
+#speed{
+    font-size: 24px;
+    color: rgb(189, 33, 227);
+}
