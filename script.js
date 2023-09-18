@@ -36,5 +36,50 @@ const paragraphs = [
 
 "The sun peeked over the horizon, painting the sky with shades of orange and pink. Birds chirped merrily, greeting the new day.In the heart of the bustling city, an old bookstore stood, its shelves filled with stories of forgotten worlds and adventures.As the waves crashed against the shore, a sense of calmness washed over her, carrying away the worries of the day.Amidst the tall trees of the forest, a hidden path unveiled itself, inviting the curious wanderer into its mysterious depths.The scent of blooming flowers lingered in the air, a sweet reminder that spring had arrived in all its colorful glory.She sat by the fireplace, lost in a book that transported her to far-off lands and magical realms of imagination.",
 ];
-let randomNumber=Math.floor(Math.random()*paragraphs.length);
-document.getElementById("para").innerHTML=paragraphs[randomNumber];
+
+const para=document.getElementById("para");
+const input=document.getElementById("text-input");
+const totalTypedEl=document.getElementById("total-typed");
+const correctsEl=document.getElementById("correct-typed");
+const wrongsEl=document.getElementById("wrong-typed");
+const timeLeftEl=document.getElementById("time");
+const speedEl=document.getElementById("speed");
+let wrongs=0;
+let corrects=0;
+let speed=0;
+let totalTyped=0;
+let timeLeft=60;
+let intervalId;
+function updateEls()
+{
+    totalTypedEl.innerHTML=`${totalTyped}`;
+    correctsEl.innerHTML=`${corrects}`;
+    wrongsEl.innerHTML=`${wrongs}`;
+    timeLeftEl.innerHTML=`${timeLeft}s`;
+    speedEl.innerHTML=`${speed}W/Min`;
+}
+function setUpInterface(){ 
+    let randomNumber=Math.floor(Math.random()*paragraphs.length);
+    let randomParagraph=paragraphs[randomNumber];
+    for (var i = 0;i<randomParagraph.length;i++) {
+        let span=`<span>${randomParagraph[i]}</span>`;
+        para.innerHTML+=span;
+    }
+    updateEls();
+}
+setUpInterface();
+
+function handleTyping(){
+    intervalId=setInterval(()=>{
+        if(timeLeft==0){
+            clearInterval(intervalId);
+        }else{
+            timeLeft--;
+            updateEls();
+        }
+    },1000);
+    document.getElementById("para").style.color="red";
+}
+
+input.addEventListener("click",handleTyping);
+document.addEventListener("keydown",handleTyping);
