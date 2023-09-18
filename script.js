@@ -50,6 +50,7 @@ let speed=0;
 let totalTyped=0;
 let timeLeft=60;
 let intervalId;
+let firstClick=true;
 function updateEls()
 {
     totalTypedEl.innerHTML=`${totalTyped}`;
@@ -70,15 +71,22 @@ function setUpInterface(){
 setUpInterface();
 
 function handleTyping(){
-    intervalId=setInterval(()=>{
-        if(timeLeft==0){
-            clearInterval(intervalId);
-        }else{
-            timeLeft--;
-            updateEls();
-        }
-    },1000);
+    if(firstClick){
+        intervalId=setInterval(()=>{
+            firstClick=false;
+            if(timeLeft==0){
+                clearInterval(intervalId);
+            }else{
+                timeLeft--;
+                updateEls();
+            }
+        },1000);
+
+    }
     document.getElementById("para").style.color="red";
+    input.addEventListener("input",()=>{
+        console.log(input.value);
+    })
 }
 
 input.addEventListener("click",handleTyping);
