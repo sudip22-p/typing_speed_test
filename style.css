@@ -27,7 +27,7 @@
 }
 .paragraph-wrapper p{
     color: #333;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.05em;
     font-size: 24px;
 }
 .measures{
@@ -61,4 +61,10 @@
 #speed{
     font-size: 24px;
     color: rgb(189, 33, 227);
+}
+.inCorrect{
+    color: rgb(233, 71, 34);
+}
+.correct{
+    color: rgb(27, 225, 64);
 }
