@@ -44,20 +44,25 @@ const correctsEl=document.getElementById("correct-typed");
 const wrongsEl=document.getElementById("wrong-typed");
 const timeLeftEl=document.getElementById("time");
 const speedEl=document.getElementById("speed");
+const accuracyEl=document.getElementById("accuracy");
 let wrongs=0;
 let corrects=0;
-let speed=0;
 let totalTyped=0;
+let speed=0;
+let accuracy=0;
 let timeLeft=60;
 let intervalId;
 let firstClick=true;
+let letterIndex=0;
 function updateEls()
 {
+    accuracy=(corrects*100)/totalTyped;
     totalTypedEl.innerHTML=`${totalTyped}`;
     correctsEl.innerHTML=`${corrects}`;
     wrongsEl.innerHTML=`${wrongs}`;
     timeLeftEl.innerHTML=`${timeLeft}s`;
     speedEl.innerHTML=`${speed}W/Min`;
+    accuracyEl.innerHTML=`${accuracy}%`;
 }
 function setUpInterface(){ 
     let randomNumber=Math.floor(Math.random()*paragraphs.length);
@@ -70,7 +75,10 @@ function setUpInterface(){
 }
 setUpInterface();
 
-function handleTyping(){
+function handleTyping(event){
+console.log(event);
+    let spans=document.getElementsByTagName("span");
+    let typedLetter=input.value.split("")[letterIndex];
     if(firstClick){
         intervalId=setInterval(()=>{
             firstClick=false;
@@ -81,13 +89,36 @@ function handleTyping(){
                 updateEls();
             }
         },1000);
-
     }
-    document.getElementById("para").style.color="red";
-    input.addEventListener("input",()=>{
-        console.log(input.value);
-    })
+    if (event.key === 'Backspace' || event.keyCode === 8||event.inputType==="deleteContentBackward"){
+        if (letterIndex > 0) {
+            letterIndex -= 1;
+            totalTyped-=1;
+            if (spans[letterIndex].classList.contains('correct')) {
+                spans[letterIndex].classList.remove("correct");
+            }
+            if (spans[letterIndex].classList.contains('inCorrect')) {
+                spans[letterIndex].classList.remove("inCorrect");
+            }
+        }
+    } else {
+        totalTyped+=1;
+        if (typedLetter === spans[letterIndex].innerHTML) {
+            spans[letterIndex].classList.add("correct");
+            corrects+=1;
+                } else {
+            spans[letterIndex].classList.add("inCorrect");
+            wrongs+=1;
+        }
+        letterIndex += 1;
+    }
+    updateEls();
 }
 
-input.addEventListener("click",handleTyping);
-document.addEventListener("keydown",handleTyping);
+document.addEventListener("keydown",()=>{
+    input.focus();
+});
+input.addEventListener("click",()=>{
+    input.focus();
+});
+input.addEventListener("input",handleTyping);
