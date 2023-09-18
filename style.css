@@ -27,16 +27,16 @@
 }
 .paragraph-wrapper p{
     color: #333;
-    letter-spacing: 0.3em;
-    font-size: 16px;
+    letter-spacing: 0.2em;
+    font-size: 24px;
 }
 .measures{
     color: blue;
-    font-size: 18px;
+    font-size: 21px;
     display: flex;
     justify-content:center;
     align-items: center;
-    gap: 12px;
+    gap: 120px;
     background-color: white;
     width: 100%;
     padding: 20px 10px;
