@@ -35,7 +35,31 @@ const paragraphs = [
 
 
 "The sun peeked over the horizon, painting the sky with shades of orange and pink. Birds chirped merrily, greeting the new day.In the heart of the bustling city, an old bookstore stood, its shelves filled with stories of forgotten worlds and adventures.As the waves crashed against the shore, a sense of calmness washed over her, carrying away the worries of the day.Amidst the tall trees of the forest, a hidden path unveiled itself, inviting the curious wanderer into its mysterious depths.The scent of blooming flowers lingered in the air, a sweet reminder that spring had arrived in all its colorful glory.She sat by the fireplace, lost in a book that transported her to far-off lands and magical realms of imagination.",
-];
+
+    "Cricket is a popular sport that originated in England but is now played all around the world. It involves two teams, each with eleven players, taking turns to bat and bowl. The batting team's goal is to score runs by hitting the ball and running between the wickets, while the bowling and fielding team aims to dismiss the batsmen and limit the runs scored. Cricket matches can last several hours or even several days, depending on the format being played. The sport is known for its strategies, skill, and the excitement it brings to fans.",
+    
+    "Soccer, also known as football in most countries, is the world's most popular sport. It's played in every corner of the globe, from the streets of Rio de Janeiro to the fields of rural Africa. The objective of the game is simple: score more goals than your opponent. Each team has a goalpost they defend, and players must use their feet, head, or any other part of their body except their arms and hands to move the ball and attempt to score. It's a sport that unites people and transcends language and cultural barriers.",
+    
+    "Basketball is a fast-paced team sport played on a rectangular court. The objective is to shoot the basketball through the opponent's hoop to score points, while also preventing the opposing team from scoring. It's a game of skill, agility, and teamwork, with each team trying to outscore the other within a set time. The sport is not just about scoring points; it's about strategy, defense, and the sheer excitement of making a slam dunk or a three-point shot from a distance.",
+    
+    "Tennis is an elegant and highly competitive sport played individually or in pairs. The players use a racket to hit a ball over a net, aiming to land the ball in the opponent's court and score points. The sport is played on various surfaces like clay, grass, and hard courts, each affecting the game's pace and style. Tennis demands precision, speed, endurance, and mental fortitude. It's a sport enjoyed by millions around the world, both as players and spectators.",
+    
+    "Baseball is often called America's pastime, but its popularity extends far beyond the United States. It's a bat-and-ball sport played between two teams, each taking turns to bat and field. The batting team aims to hit the pitched ball and run around bases to score runs, while the fielding team tries to get the batters out. Baseball has a rich history and a unique culture, with fans often indulging in traditions and rituals that add to the excitement of the game.",
+    
+    "Golf is a precision sport where players use clubs to hit a ball into a series of holes on a course in as few strokes as possible. The objective is to complete the course in the fewest strokes, navigating various obstacles like bunkers, water hazards, and trees. Golf is known for its focus, technique, and etiquette. It's a sport that can be both highly competitive and relaxing, enjoyed by people of all ages and skill levels.",
+  
+    "Physics, often called the fundamental science, seeks to understand the fundamental principles governing the behavior of the universe. It explores the properties of matter, energy, space, and time. From the motion of subatomic particles to the forces governing celestial bodies, physics helps us comprehend the fundamental laws that govern everything around us. It has enabled technological advancements, from electricity to space exploration, shaping the modern world.",
+    
+    "Biology is the study of life and living organisms. It delves into the structure, function, growth, evolution, distribution, and taxonomy of all living things. From the smallest microorganisms to the largest mammals, biology helps us understand the diversity and complexity of life on Earth. It has implications for medicine, agriculture, environmental science, and more, providing valuable insights into how life functions and evolves.",
+    
+    "Astronomy is the scientific study of celestial objects, space, and the universe as a whole. It includes the observation and analysis of planets, stars, galaxies, and other cosmic phenomena. Astronomy allows us to understand the vastness of the cosmos, the origins of the universe, and the evolution of celestial bodies. It combines physics, mathematics, and chemistry to unlock the secrets of the cosmos, expanding our knowledge of the universe beyond Earth.",
+    
+    "Statistics is a branch of mathematics that deals with the collection, analysis, interpretation, presentation, and organization of data. It plays a crucial role in various fields, aiding in decision-making, prediction, and understanding patterns. From economics to sociology, healthcare to environmental science, statistics provides essential tools to make informed judgments based on data, making it an indispensable discipline in the modern world.",
+    
+    "Environmental science is an interdisciplinary field that combines aspects of biology, chemistry, physics, geology, and geography to understand Earth's systems and how they interact. It aims to solve environmental problems and find sustainable solutions to maintain the health of our planet. Environmental science encompasses topics such as climate change, pollution, conservation, and natural resource management, providing the knowledge needed to address pressing environmental issues.",
+  ];
+  
+  
 
 const para=document.getElementById("para");
 const input=document.getElementById("text-input");
@@ -59,6 +83,7 @@ let intervalId;
 let firstClick=true;
 let letterIndex=0;
 let timeFactor;
+let totalLetters;
 function updateEls()
 {
     accuracy=Math.floor((corrects*100)/totalTyped);
@@ -78,7 +103,7 @@ function setUpInterface(){
     let randomNumber=Math.floor(Math.random()*paragraphs.length);
     let randomParagraph=paragraphs[randomNumber];
     for (var i = 0;i<randomParagraph.length;i++) {
-        let span=`<span>${randomParagraph[i]}</span>`;
+        let span=`<span class="letters">${randomParagraph[i]}</span>`;
         para.innerHTML+=span;
     }
     updateEls();
@@ -87,7 +112,7 @@ setUpInterface();
 function startTime(){
     intervalId=setInterval(()=>{
         firstClick=false;
-        if(timeLeft==0){
+        if(timeLeft==0||totalLetters==letterIndex){
             clearInterval(intervalId);
             document.getElementsByClassName("game-over-wrapper")[0].style.display="flex";
             document.getElementsByClassName("wrapper")[0].style.display="none";
@@ -99,11 +124,12 @@ function startTime(){
     },1000);
 }
 function handleTyping(event){
-console.log(event);
-    let spans=document.getElementsByTagName("span");
-    let typedLetter=input.value.split("")[letterIndex];
+let spans=document.getElementsByClassName("letters");//span with class - letters
+let typedLetter=input.value.split("")[letterIndex];
+totalLetters=spans.length;
     if(firstClick){
         firstClick=false;
+        document.getElementById("hide-on").style.display="none";
         startTime();
     }
     if (event.key === 'Backspace' || event.keyCode === 8||event.inputType==="deleteContentBackward"){
