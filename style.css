@@ -105,3 +105,8 @@ input{
     color: rgb(136, 137, 227);
     background-color: rgb(136, 137, 227);
 }
+#help{
+    user-select: none;
+    color: red;
+    font-weight: bold;
+}
