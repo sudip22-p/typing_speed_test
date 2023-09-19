@@ -42,27 +42,37 @@ const input=document.getElementById("text-input");
 const totalTypedEl=document.getElementById("total-typed");
 const correctsEl=document.getElementById("correct-typed");
 const wrongsEl=document.getElementById("wrong-typed");
+const totalTypedElRes=document.getElementById("total-typed-result");
+const correctsElRes=document.getElementById("correct-typed-result");
+const wrongsElRes=document.getElementById("wrong-typed-result");
 const timeLeftEl=document.getElementById("time");
 const speedEl=document.getElementById("speed");
 const accuracyEl=document.getElementById("accuracy");
+const speedElRes=document.getElementById("speed-result");
+const accuracyElRes=document.getElementById("accuracy-result");
 let wrongs=0;
 let corrects=0;
 let totalTyped=0;
-let speed=0;
 let accuracy=0;
 let timeLeft=60;
 let intervalId;
 let firstClick=true;
 let letterIndex=0;
+let timeFactor;
 function updateEls()
 {
-    accuracy=(corrects*100)/totalTyped;
+    accuracy=Math.floor((corrects*100)/totalTyped);
     totalTypedEl.innerHTML=`${totalTyped}`;
+    totalTypedElRes.innerHTML=`${totalTyped}`;
     correctsEl.innerHTML=`${corrects}`;
+    correctsElRes.innerHTML=`${corrects}`;
     wrongsEl.innerHTML=`${wrongs}`;
-    timeLeftEl.innerHTML=`${timeLeft}s`;
-    speedEl.innerHTML=`${speed}W/Min`;
-    accuracyEl.innerHTML=`${accuracy}%`;
+    wrongsElRes.innerHTML=`${wrongs}`;
+    timeLeftEl.innerHTML=`${timeLeft} s`;
+    speedEl.innerHTML=`${Math.floor((totalTyped/timeFactor)/5)} WPM`;
+    speedElRes.innerHTML=`${Math.floor((totalTyped/timeFactor)/5)} WPM`;
+    accuracyEl.innerHTML=`${accuracy} %`;
+    accuracyElRes.innerHTML=`${accuracy} %`;
 }
 function setUpInterface(){ 
     let randomNumber=Math.floor(Math.random()*paragraphs.length);
@@ -74,30 +84,38 @@ function setUpInterface(){
     updateEls();
 }
 setUpInterface();
-
+function startTime(){
+    intervalId=setInterval(()=>{
+        firstClick=false;
+        if(timeLeft==0){
+            clearInterval(intervalId);
+            document.getElementsByClassName("game-over-wrapper")[0].style.display="flex";
+            document.getElementsByClassName("wrapper")[0].style.display="none";
+               }else{
+            timeLeft--;
+            timeFactor=(60-timeLeft)/60;
+            updateEls();
+        }
+    },1000);
+}
 function handleTyping(event){
 console.log(event);
     let spans=document.getElementsByTagName("span");
     let typedLetter=input.value.split("")[letterIndex];
     if(firstClick){
-        intervalId=setInterval(()=>{
-            firstClick=false;
-            if(timeLeft==0){
-                clearInterval(intervalId);
-            }else{
-                timeLeft--;
-                updateEls();
-            }
-        },1000);
+        firstClick=false;
+        startTime();
     }
     if (event.key === 'Backspace' || event.keyCode === 8||event.inputType==="deleteContentBackward"){
         if (letterIndex > 0) {
             letterIndex -= 1;
             totalTyped-=1;
             if (spans[letterIndex].classList.contains('correct')) {
+                corrects-=1;
                 spans[letterIndex].classList.remove("correct");
             }
             if (spans[letterIndex].classList.contains('inCorrect')) {
+                wrongs-=1;
                 spans[letterIndex].classList.remove("inCorrect");
             }
         }
@@ -105,9 +123,11 @@ console.log(event);
         totalTyped+=1;
         if (typedLetter === spans[letterIndex].innerHTML) {
             spans[letterIndex].classList.add("correct");
+            lastRecord=true;
             corrects+=1;
-                } else {
+        } else {
             spans[letterIndex].classList.add("inCorrect");
+            lastRecord=false;
             wrongs+=1;
         }
         letterIndex += 1;
@@ -122,3 +142,9 @@ input.addEventListener("click",()=>{
     input.focus();
 });
 input.addEventListener("input",handleTyping);
+document.getElementById("reset").addEventListener("click",()=>{
+    location.reload();
+});
+document.getElementById("replay").addEventListener("click",()=>{
+    location.reload();
+});
