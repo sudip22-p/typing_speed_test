@@ -160,16 +160,20 @@ function handleTyping(event) {
     updateEls();
 }
 
+
 document.addEventListener("keydown", () => {
     input.focus();
 });
+
 input.addEventListener("click", () => {
     input.focus();
 });
+
 input.addEventListener("input", handleTyping);
 document.getElementById("reset").addEventListener("click", () => {
     location.reload();
 });
+
 document.getElementById("replay").addEventListener("click", () => {
     location.reload();
 });
