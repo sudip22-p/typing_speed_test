@@ -21,7 +21,7 @@
     </div>
     <div class="wrapper">
         <h1>Typing Speed Test</h1>
-        <input type="text" name="text-input" id="text-input">
+        <input type="text" name="text-input" id="text-input" autocomplete="off">
         <div class="paragraph-wrapper">
             <p id="para"></p>
         </div>
@@ -33,6 +33,9 @@
             <div>Accuracy: <span id="accuracy"></span></div>
             <div>Speed: <span id="speed"></span></div>
             <div id="reset">Reset</div>
+        </div>
+        <div class="measures" id="hide-on">
+            <p id="help">????->Start inputting using keyboard to proceed!!!</p>
         </div>
     </div>
     <script src="./script.js"></script>
